@@ -1,9 +1,13 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/service/routes/routes_name.dart';
 import 'package:test_app/views/auth_view/auth_page.dart';
+import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../src/controllers/enter_number_cont.dart';
+import '../../views/main_view/main_page.dart';
+import '../../views/profile_view/profile_page.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final AppStreamController _controller = AppStreamController();
@@ -24,12 +28,25 @@ class MainNavigator extends StatelessWidget {
       },
       child: Navigator(
         key: navigatorKey,
-        initialRoute: MainRoutes.AboutPage,
+        initialRoute: MainRoutes.AuthPage,
         onGenerateRoute: (RouteSettings settings) {
           WidgetBuilder? builder;
           switch (settings.name) {
-            case MainRoutes.AboutPage:
-              builder = (BuildContext _) => AuthPage(controller: _controller,);
+            case MainRoutes.AuthPage:
+              builder = (BuildContext _) => MultiBlocProvider(
+                providers: [
+                  BlocProvider<AuthBloc>(
+                    create: (context) => AuthBloc(),
+                  ),
+                ],
+                child: AuthPage(controller: _controller,),
+              );
+              break;
+            case MainRoutes.MainPage:
+              builder = (BuildContext _) => MainPage(controller: _controller,);
+              break;
+            case MainRoutes.UserProfile:
+              builder = (BuildContext _) => UserProfile(controller: _controller,);
               break;
           }
           if (builder != null) {

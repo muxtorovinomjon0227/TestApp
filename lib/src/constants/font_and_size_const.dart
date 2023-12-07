@@ -12,9 +12,11 @@ class SizeConst {
 }
 
 class WeightsConst {
-  static FontWeight kNormalWeight = FontWeight.normal;
-  static FontWeight kBoldWeight = FontWeight.bold;
-  static FontWeight kSmallWeight400 = FontWeight.w400;
-  static FontWeight kMediumWeight600 = FontWeight.w600;
-  static FontWeight kLargeWeight800 = FontWeight.w800;
+  static const FontWeight kNormalWeight = FontWeight.normal;
+  static const  FontWeight kBoldWeight = FontWeight.bold;
+  static const FontWeight kSmallWeight400 = FontWeight.w400;
+  static const FontWeight kSmallWeight500 = FontWeight.w500;
+  static const FontWeight kMediumWeight600 = FontWeight.w600;
+  static const FontWeight kMediumWeight700 = FontWeight.w700;
+  static const FontWeight kLargeWeight800 = FontWeight.w800;
 }
