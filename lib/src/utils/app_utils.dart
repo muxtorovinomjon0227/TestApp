@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:test_app/app_models/user_model.dart';
-import 'package:test_app/src/widgets/app_text_widgets/small_text.dart';
-
 import '../constants/colors_const.dart';
 
 
@@ -67,6 +65,5 @@ class AppUtils {
   }
 
   static UserModel userModel = UserModel();
-
 }
 
