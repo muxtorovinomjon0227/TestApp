@@ -9,6 +9,7 @@ import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../src/constants/app_const/app_text_const.dart';
 import '../../src/controllers/stream_controller.dart';
 import '../../src/widgets/elevaton_button_widget/elevaton_button_widget.dart';
+import '../../src/widgets/exception_view/exception_view.dart';
 import '../../src/widgets/text_filed_w/text_filed.dart';
 
 class AuthPage extends StatefulWidget {
@@ -56,7 +57,12 @@ class _AuthpageState extends State<AuthPage> {
             return buildBody(state.emileIsEmpty ?? false, state.passwordIsEmpty ?? false);
           }
           if (state is AuthExceptionState) {
-            return const Center(child: SmallText(text: 'Что-то не так'));
+            return  AppExceptionView(
+              message: TextConst.appExceptionMes,
+              onPressed: (){
+                statseChenge(emile:false, password: false);
+              },
+              authName: MainRoutes.AuthPage,);
           }
           return const Center(child: Text("TestApp"));
         },
