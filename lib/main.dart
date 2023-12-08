@@ -22,28 +22,11 @@ Future<void> main() async {
 class MyApp extends StatefulWidget  {
   static NavigationService navigationService = NavigationService();
   const MyApp({Key? key}) : super(key: key);
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-    } else if(state == AppLifecycleState.inactive){
-    } else if(state == AppLifecycleState.detached){
-    } else if(state == AppLifecycleState.paused){
-    }
-  }
-
+class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {

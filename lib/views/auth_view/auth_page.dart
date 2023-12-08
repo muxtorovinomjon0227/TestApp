@@ -6,9 +6,9 @@ import 'package:test_app/src/extension/context_extensions.dart';
 import 'package:test_app/src/utils/app_utils.dart';
 import 'package:test_app/src/widgets/app_text_widgets/small_text.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
-import '../../src/constants/font_and_size_const.dart';
+import '../../src/constants/app_text_const.dart';
 import '../../src/controllers/enter_number_cont.dart';
-import '../../src/widgets/app_text_widgets/big_text.dart';
+import '../../src/widgets/elevaton_button_widget/elevaton_button_widget.dart';
 import '../../src/widgets/text_filed_w/text_filed.dart';
 
 class AuthPage extends StatefulWidget {
@@ -20,11 +20,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthpageState extends State<AuthPage> {
-  // final _emileTextCont = TextEditingController(text: "muxtorovinomjon0227@gmail.com");
-  // final _passwordTextCont = TextEditingController(text: "Inomjon");
   final _emileTextCont = TextEditingController(text: "maripbekoff@gmail.com");
-  final _passwordTextCont = TextEditingController(text: "adminadmin");
-
+  final _passwordTextCont = TextEditingController(text: "adminadmi");
   late AuthBloc authBloc;
 
   @override
@@ -41,7 +38,7 @@ class _AuthpageState extends State<AuthPage> {
       backgroundColor: ColorConst.appBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        title: SmallText(text: "Авторизация",color: ColorConst.bleackColor),
+        title: SmallText(text: TextConst.authorization,color: ColorConst.bleackColor),
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -56,122 +53,111 @@ class _AuthpageState extends State<AuthPage> {
             return Center(child: AppUtils.buttonLoaderColor);
           }
           if (state is AuthLoadedState) {
-            return buildUi();
+            return buildBody(state.emileIsEmpty ?? false, state.passwordIsEmpty ?? false);
           }
           if (state is AuthExceptionState) {
-            return const Center(child: SmallText(text: 'Something wrong'));
+            return const Center(child: SmallText(text: 'Что-то не так'));
           }
-          return const Center(child: Text("AloVoice"));
+          return const Center(child: Text("TestApp"));
         },
       ),
     );
   }
-  Widget buildUi(){
+  Widget buildBody(bool emileIsEmpty, bool passwordIsEmpty){
     return SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(height: context.h*0.2),
-          TextFiledWidget(lableName: 'Логин или почта', textEditingController: _emileTextCont),
+         Container(
+           color: ColorConst.whiteColor,
+           child:  TextFiledWidget(lableName: TextConst.emileLableText,
+               errorMessage: emileIsEmpty ?  TextConst.enterEmileMes : null,
+               callback: (value){
+             if(value!.isNotEmpty){
+               statseChenge(emile: false,password: passwordIsEmpty);
+             }
+               },
+               textEditingController: _emileTextCont),
+         ),
           Container(
             color: ColorConst.whiteColor,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(
+            child: const Divider(
               color: ColorConst.appDividerColor,
             ),
           ),
-          TextFiledWidget(lableName: 'Пароль', textEditingController: _passwordTextCont),
+          TextFiledWidget(lableName: TextConst.passwordLableText,
+              errorMessage: passwordIsEmpty ?  TextConst.enterPasswordMes : null,
+              callback: (value){
+                if(value!.isNotEmpty){
+                  statseChenge(password: false,emile: emileIsEmpty);
+                }
+              },
+              textEditingController: _passwordTextCont),
           SizedBox(height: context.h*0.1),
-          buildButtonLogin(),
+          buildButtonLogin(password: passwordIsEmpty,emile: emileIsEmpty),
           SizedBox(height: context.h*0.02),
-          buildButtonAuth(),
+          buildButtonAuth(password: passwordIsEmpty,emile: emileIsEmpty),
         ],
       ),
     );
   }
-  Widget buildButtonLogin() {
+
+  void func(String funcName,bool emile,bool password){
+    if(_emileTextCont.text.isNotEmpty && _passwordTextCont.text.isNotEmpty){
+      funcName == "SIGNIN"
+          ? widget.controller.inputLoadingBool.add(true)
+          : widget.controller.inputLoadingBoolAuth.add(true);
+      authBloc.add(AuthLoginEvent(
+          controller: widget.controller,
+          emile: _emileTextCont.text,
+          password: _passwordTextCont.text
+      ));
+    }else{
+       AppUtils.showSnackBar(context, TextConst.enterAppLine);
+      if(_emileTextCont.text.isEmpty && _passwordTextCont.text.isEmpty ){
+        statseChenge(emile:true, password: true);
+      }else if(_passwordTextCont.text.isEmpty){
+        statseChenge(emile: emile, password: true);
+      } else{
+        statseChenge(emile: true, password: password);
+      }
+    }
+  }
+
+  void statseChenge({bool? emile, bool? password}){
+    authBloc.add(AuthPageStateChangeEvent(passwordIsEmpty: password,emileIsEmpty: emile));
+  }
+
+  Widget buildButtonLogin({bool? emile, bool? password}) {
     return StreamBuilder(
         stream: widget.controller.outputLoadingBool,
         initialData: false,
         builder: (BuildContext context, snapshot){
-      return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
-          backgroundColor: ColorConst.appButtonColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-        onPressed: () async {
-          if(_emileTextCont.text.isNotEmpty && _passwordTextCont.text.isNotEmpty){
-            widget.controller.controllerLogin.add(true);
-            authBloc.add(AuthLoginEvent(
-              controller: widget.controller,
-                emile: _emileTextCont.text,
-                password: _passwordTextCont.text
-            ));
-          }else{
-            AppUtils.showSnackBar(context, "Fill in all the lines");
-          }
-
+      return CustomButton(
+        isLoading: snapshot.data ?? false,
+        width: 343,
+        height: 64,
+        onPressed: () {
+          func("SIGNIN",emile!,password!);
         },
-        child: SizedBox(
-          width: 343,
-          height: 64,
-          child: Center(
-            child: snapshot.data == false
-                ? BigText(
-                text: "Войти",
-                fontWidget: WeightsConst.kMediumWeight700,
-                color: ColorConst.whiteColor,
-                size: SizeConst.kMediumFont16
-            )
-                : AppUtils.buttonLoader,
-          ),
-        ),
-      );
+        title: TextConst.comeApp,);
     });
   }
 
-  Widget buildButtonAuth() {
+  Widget buildButtonAuth({bool? emile, bool? password}) {
     return StreamBuilder(
         stream: widget.controller.outputLoadingBoolAuth,
         initialData: false,
         builder: (BuildContext context, snapshot){
-      return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
-          backgroundColor: ColorConst.appButtonColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-        onPressed: () async {
-          if(_emileTextCont.text.isNotEmpty && _passwordTextCont.text.isNotEmpty){
-            widget.controller.controllerAuth.add(true);
-            authBloc.add(AuthLoginEvent(
-                controller: widget.controller,
-                emile: _emileTextCont.text,
-                password: _passwordTextCont.text
-            ));
-          }else{
-          AppUtils.showSnackBar(context, "Fill in all the lines");
-          }
+      return CustomButton(
+        isLoading: snapshot.data ?? false,
+        width: 343,
+        height: 64,
+        onPressed: () {
+          func("SIGNUP",emile!,password!);
         },
-        child: SizedBox(
-          width: 343,
-          height: 64,
-          child: Center(
-            child: snapshot.data == false
-                ? BigText(
-                text: "Зарегистрироваться",
-                fontWidget: WeightsConst.kMediumWeight700,
-                color: ColorConst.whiteColor,
-                size: SizeConst.kMediumFont16
-            )
-                : AppUtils.buttonLoader,
-          ),
-        ),
-      );
+        title: TextConst.register,);
     });
   }
 }
