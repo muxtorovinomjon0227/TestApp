@@ -1,11 +1,11 @@
 import 'dart:async';
 
 class AppStreamController {
-  final StreamController<bool> controllerLogin = StreamController<bool>.broadcast();
+  final controllerLogin = StreamController<bool>();
   Sink<bool> get inputLoadingBool => controllerLogin.sink;
   Stream<bool> get outputLoadingBool => controllerLogin.stream;
 
-  final StreamController<bool> controllerAuth = StreamController<bool>.broadcast();
+  final controllerAuth = StreamController<bool>();
   Sink<bool> get inputLoadingBoolAuth => controllerAuth.sink;
   Stream<bool> get outputLoadingBoolAuth => controllerAuth.stream;
 
