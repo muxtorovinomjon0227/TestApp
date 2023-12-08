@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:test_app/src/utils/app_utils.dart';
 import '../../../app_models/user_model.dart';
 import '../../../src/constants/api_constants/api_const.dart';
@@ -20,14 +22,18 @@ class UserRepository {
       Response response = await dio.post(BaseApi.SIGN_IN,
         data: body,
       );
-      if(response.statusCode == 200){
+      if(response.statusCode == HttpStatus.ok){
         AppUtils.userModel = UserModel.fromJson(response.data);
-        return response.statusCode;
+        return {"status_code": response.statusCode,"message": response.statusMessage};
       } else{
-        return response.statusCode;
+        return {"status_code": response.statusCode,"message":response.statusMessage};
       }
     } on DioError catch (e) {
-      return "DIO_ERROR";
+      if (e.response != null && e.response!.statusCode == 422) {
+        return {"status_code": e.response!.statusCode,"message":e.response?.data["message"]};
+      } else {
+        debugPrint('Other error: $e');
+      }
     }
   }
 
