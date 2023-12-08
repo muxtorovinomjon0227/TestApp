@@ -8,7 +8,7 @@ import 'package:test_app/src/widgets/app_text_widgets/small_text.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../src/constants/app_const/app_text_const.dart';
 import '../../src/controllers/stream_controller.dart';
-import '../../src/widgets/elevaton_button_widget/elevaton_button_widget.dart';
+import '../../src/widgets/custom_button/custom_button.dart';
 import '../../src/widgets/exception_view/exception_view.dart';
 import '../../src/widgets/text_filed_w/text_filed.dart';
 
@@ -22,7 +22,7 @@ class AuthPage extends StatefulWidget {
 
 class _AuthpageState extends State<AuthPage> {
   final _emileTextCont = TextEditingController(text: "maripbekoff@gmail.com");
-  final _passwordTextCont = TextEditingController(text: "adminadmi");
+  final _passwordTextCont = TextEditingController(text: "adminadmin");
   late AuthBloc authBloc;
 
   @override
@@ -64,7 +64,7 @@ class _AuthpageState extends State<AuthPage> {
               },
               authName: MainRoutes.AuthPage,);
           }
-          return const Center(child: Text("TestApp"));
+          return buildBody(false, false);
         },
       ),
     );
