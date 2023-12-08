@@ -4,12 +4,12 @@
 
 
 Used:
-Bloc
-Equatable
-Stream
-Have Flutter
-Dio
-GoogleFonts
+Bloc,
+Equatable,
+Stream,
+Have Flutter,
+Dio,
+GoogleFonts,
 
 
 
