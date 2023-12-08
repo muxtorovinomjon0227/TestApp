@@ -21,8 +21,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthpageState extends State<AuthPage> {
-  final _emileTextCont = TextEditingController(text: "maripbekoff@gmail.com");
-  final _passwordTextCont = TextEditingController(text: "adminadmin");
+  final _emileTextCont = TextEditingController(text: "muxtorovinomjon0227@gmail.com");
+  final _passwordTextCont = TextEditingController(text: "inomjon2000");
   late AuthBloc authBloc;
 
   @override
@@ -78,6 +78,7 @@ class _AuthpageState extends State<AuthPage> {
            color: ColorConst.whiteColor,
            child:  TextFiledWidget(lableName: TextConst.emileLableText,
                errorMessage: emileIsEmpty ?  TextConst.enterEmileMes : null,
+               type: TextInputType.emailAddress,
                callback: (value){
              if(value!.isNotEmpty){
                statseChenge(emile: false,password: passwordIsEmpty);
