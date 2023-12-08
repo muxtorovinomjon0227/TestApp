@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:test_app/app_models/user_model.dart';
+import 'package:test_app/app_models/user_model/user_model.dart';
 import '../constants/app_const/colors_const.dart';
 
 
