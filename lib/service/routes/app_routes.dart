@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/service/routes/routes_name.dart';
 import 'package:test_app/views/auth_view/auth_page.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
-import '../../src/controllers/enter_number_cont.dart';
+import '../../src/controllers/stream_controller.dart';
 import '../../views/main_view/main_page.dart';
 import '../../views/profile_view/profile_page.dart';
 
