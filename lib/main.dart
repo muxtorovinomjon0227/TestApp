@@ -5,9 +5,6 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:test_app/service/routes/app_routes.dart';
 import 'package:test_app/service/routes/navigator_service.dart';
 
-
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -19,7 +16,7 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget  {
+class MyApp extends StatefulWidget {
   static NavigationService navigationService = NavigationService();
   const MyApp({Key? key}) : super(key: key);
   @override
@@ -27,17 +24,21 @@ class MyApp extends StatefulWidget  {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.manropeTextTheme(),
+    final mediaQueryData = MediaQuery.of(context);
+    final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.3);
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: GoogleFonts.manropeTextTheme(),
+        ),
+        title: 'Test App',
+        navigatorKey: MyApp.navigationService.navigatorKey,
+        home: const MainNavigator(),
       ),
-      title: 'Test App',
-      navigatorKey: MyApp.navigationService.navigatorKey,
-      home: const MainNavigator(),
     );
   }
 }
