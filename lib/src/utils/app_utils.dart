@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:test_app/app_models/user_model/user_model.dart';
+import '../constants/app_const/app_text_const.dart';
 import '../constants/app_const/colors_const.dart';
+import '../constants/app_const/font_and_size_const.dart';
 
 
 class AppUtils {
-  static  Widget buttonLoader = SizedBox(
+  static  Widget buttonLoader = const SizedBox(
     width: 30,
     height: 30,
     child: CircularProgressIndicator(
@@ -14,7 +16,7 @@ class AppUtils {
       color: ColorConst.whiteColor,
     ),
   );
-  static  Widget buttonLoaderColor = SizedBox(
+  static  Widget buttonLoaderColor = const SizedBox(
     width: 30,
     height: 30,
     child: CircularProgressIndicator(
@@ -30,7 +32,7 @@ class AppUtils {
         style: GoogleFonts.manrope(
           textStyle: Theme.of(context).textTheme.bodyMedium,
           color: ColorConst.whiteColor,
-          fontSize: 16,),
+          fontSize: SizeConst.kMediumFont16),
         textAlign: TextAlign.center,
       ),),
       backgroundColor: ColorConst.appButtonColor,
@@ -49,14 +51,14 @@ class AppUtils {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text('Unsuccessful'),
+          title: Text(TextConst.unsuccessful),
           content: Text(message),
           actions: [
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK'),
+              child: Text(TextConst.ok),
             ),
           ],
         );
