@@ -12,7 +12,7 @@ Future<void> main() async {
     statusBarIconBrightness: Brightness.light,
   ));
   await Hive.initFlutter();
-  await Hive.openBox('TestApp'); //  TODO: Hivedan foydalanish
+  await Hive.openBox('TestAppBox'); //  TODO: Hivedan foydalanish
   runApp(const MyApp());
 }
 

@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/service/routes/routes_name.dart';
 import 'package:test_app/src/constants/app_const/colors_const.dart';
 import 'package:test_app/src/extension/context_extensions.dart';
-import 'package:test_app/src/utils/app_utils.dart';
+import 'package:test_app/src/utils/app_utils/app_utils.dart';
+import 'package:test_app/src/utils/hive_utils/hive_utils.dart';
 import 'package:test_app/src/widgets/app_text_widgets/small_text.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../src/constants/app_const/app_text_const.dart';
@@ -21,8 +22,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthpageState extends State<AuthPage> {
-  final _emileTextCont = TextEditingController(text: "muxtorovinomjon0227@gmail.com");
-  final _passwordTextCont = TextEditingController(text: "inomjon2000");
+  final _emileTextCont = TextEditingController(text: "");
+  final _passwordTextCont = TextEditingController(text: "");
   late AuthBloc authBloc;
 
   @override
@@ -45,6 +46,8 @@ class _AuthpageState extends State<AuthPage> {
         listener: (context, state) {
           if(state is AuthSuccsessState){
             Navigator.pushReplacementNamed(context, MainRoutes.MainPage);
+            HiveUtils.box.put(HiveUtils.isRegisterdKey, true);
+            HiveUtils.setUserModel(AppUtils.userModel);
           } else if(state is AuthDioErrorState){
             AppUtils.errorDialog(context, state.message);
           }
@@ -148,7 +151,7 @@ class _AuthpageState extends State<AuthPage> {
         onPressed: () {
           func("SIGNIN",emile!,password!);
         },
-        title: TextConst.comeApp,);
+        title: TextConst.logOut,);
     });
   }
 

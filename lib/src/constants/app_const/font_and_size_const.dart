@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class SizeConst {
   static const double kExtraSmallFont8 = 8.0;
+  static const double kExtraSmallFont10 = 10.0;
   static const double kSmallFont15 = 15.0;
   static const double kMediumFont16 = 16.0;
   static const double kLargeFont20 = 20.0;
