@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:test_app/src/utils/app_utils.dart';
+import 'package:test_app/src/utils/app_utils/app_utils.dart';
 import '../../../app_models/user_model/user_model.dart';
 import '../../../src/constants/api_constants/api_const.dart';
 

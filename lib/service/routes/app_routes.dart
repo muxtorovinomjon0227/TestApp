@@ -1,8 +1,8 @@
 // ignore_for_file: body_might_complete_normally_nullable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/service/routes/routes_name.dart';
+import 'package:test_app/src/utils/hive_utils/hive_utils.dart';
 import 'package:test_app/views/auth_view/auth_page.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../src/controllers/stream_controller.dart';
@@ -11,7 +11,6 @@ import '../../views/profile_view/profile_page.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final AppStreamController _controller = AppStreamController();
-
 
 class MainNavigator extends StatelessWidget {
   const MainNavigator({Key? key}) : super(key: key);
@@ -28,25 +27,33 @@ class MainNavigator extends StatelessWidget {
       },
       child: Navigator(
         key: navigatorKey,
-        initialRoute: MainRoutes.AuthPage,
+        initialRoute: HiveUtils.box.get(HiveUtils.isRegisterdKey) ?? false
+            ? MainRoutes.MainPage
+            : MainRoutes.AuthPage,
         onGenerateRoute: (RouteSettings settings) {
           WidgetBuilder? builder;
           switch (settings.name) {
             case MainRoutes.AuthPage:
               builder = (BuildContext _) => MultiBlocProvider(
-                providers: [
-                  BlocProvider<AuthBloc>(
-                    create: (context) => AuthBloc(),
-                  ),
-                ],
-                child: AuthPage(controller: _controller,),
-              );
+                    providers: [
+                      BlocProvider<AuthBloc>(
+                        create: (context) => AuthBloc(),
+                      ),
+                    ],
+                    child: AuthPage(
+                      controller: _controller,
+                    ),
+                  );
               break;
             case MainRoutes.MainPage:
-              builder = (BuildContext _) => MainPage(controller: _controller,);
+              builder = (BuildContext _) => MainPage(
+                    controller: _controller,
+                  );
               break;
             case MainRoutes.UserProfile:
-              builder = (BuildContext _) => UserProfile(controller: _controller,);
+              builder = (BuildContext _) => UserProfile(
+                    controller: _controller,
+                  );
               break;
           }
           if (builder != null) {
